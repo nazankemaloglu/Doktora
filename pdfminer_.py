@@ -31,7 +31,7 @@ def extract_text(pdf_path):
     return tot
 
 if __name__ == "__main__":
-    path = "Dataset-1/1.pdf"
+    path = "3.pdf"
     pdf_miner = extract_text(path)
     print('The pdf has {} pages and the data structure is a {} where the index refers to the page number.'.format( ((list(pdf_miner.keys())[0])) , type(pdf_miner)))
 
@@ -40,6 +40,8 @@ for key,val in pdf_miner.items():
     text.append(val)
 s=(" ".join(text))
 s = s.replace('vb.', 'vb')
+s = s.replace('vd.', 'vd')
+s = s.replace('?', '')
 s = s.replace('Eş.', 'Eş')
 
 a_list = nltk.tokenize.sent_tokenize(s)
@@ -51,7 +53,8 @@ a_list=a_list[:i]
 for el in a_list:
     if len(el)<12:
         a_list.remove(el)
-
+        
+[x for x in a_list if "[" in x ]
 
 '''
 #d=list(filter(None, s.split('  ')))

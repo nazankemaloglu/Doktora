@@ -31,7 +31,7 @@ def extract_text(pdf_path):
     return tot
 
 if __name__ == "__main__":
-    path = "/home/linux/İndirilenler/Tez-main/2.pdf"
+    path = "/home/linux/İndirilenler/Tez-main/3.pdf"
     pdf_miner = extract_text(path)
     print('The pdf has {} pages and the data structure is a {} where the index refers to the page number.'.format( ((list(pdf_miner.keys())[0])) , type(pdf_miner)))
 
@@ -44,21 +44,45 @@ s = s.replace('vd.', 'vd')
 s = s.replace('?', '')
 s = s.replace('Eş.', 'Eş')
 
-a_list = nltk.tokenize.sent_tokenize(s)
+
+'''
+        
+for e in a_list:
+    res=detect(e)
+    if res =="en":
+        print(e)
+        a_list.remove(e)
+'''        
+'''Özeti çıkarmak için '''
 
 abstract = [i for i, x in enumerate(a_list) if 'Keywords' in x]
+indis_=min(abstract)+1
+anahtar_kelimeler = [i for i, x in enumerate(a_list) if 'Anahtar Kelimeler' in x]
+indis=max(abstract)+1
+deger=min(anahtar_kelimeler)
 
-indis=abstract[0]+1
+baslangic=min(indis_,deger)
+bitis=max(indis_,deger)
+
+ozet=a_list[baslangic:bitis]
+
+''' özetin veri setinden çıktıktan sonraki hali'''
+
 a_list=a_list[indis:]
 indices = [i for i, x in enumerate(a_list) if 'KAYNAK' in x]
 i=indices[0]
 a_list=a_list[:i]
 
+a_list = nltk.tokenize.sent_tokenize(s)
 for el in a_list:
     if len(el)<12:
         a_list.remove(el)
+    
         
-[x for x in a_list if "[" in x ]
+'''referanslar çıkarıldıktan sonra '''
+
+char_list=['[', ']']        
+res = [ele for ele in a_list if all(ch not in ele for ch in char_list)] 
 
 '''
 #d=list(filter(None, s.split('  ')))
